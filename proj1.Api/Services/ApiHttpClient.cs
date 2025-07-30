@@ -7,27 +7,39 @@ namespace PatientPortal.Services;
 public class ApiHttpClient : IApiHttpClient
 {
     private readonly HttpClient _httpClient;
-    private readonly ITokenService _tokenService;
+    //private readonly ITokenService _tokenService;
     private readonly IConfiguration _configuration;
 
 
-    public ApiHttpClient(HttpClient httpClient, ITokenService tokenService, IConfiguration configuration)
-    {
-        _httpClient = httpClient;
-        _tokenService = tokenService;
-        _configuration = configuration;
+    // public ApiHttpClient(HttpClient httpClient, ITokenService tokenService, IConfiguration configuration)
+    // {
+    //     _httpClient = httpClient;
+    //     _tokenService = tokenService;
+    //     _configuration = configuration;
 
-        _httpClient.BaseAddress = new Uri("https://localhost:7047/api/");
-    }
+    //     _httpClient.BaseAddress = new Uri("https://localhost:7047/api/");
+    // }
 
-    private async Task<HttpClient> GetAuthenticatedClientAsync()
+    public ApiHttpClient(HttpClient httpClient, IConfiguration configuration)
     {
-        var token = await _tokenService.GetAccessTokenAsync();
-        if (!string.IsNullOrEmpty(token))
-        {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-        return _httpClient;
+    _httpClient = httpClient;
+    _configuration = configuration;
+    _httpClient.BaseAddress = new Uri("https://localhost:7047/api/");
+}
+
+    // private async Task<HttpClient> GetAuthenticatedClientAsync()
+    // {
+    //     var token = await _tokenService.GetAccessTokenAsync();
+    //     if (!string.IsNullOrEmpty(token))
+    //     {
+    //         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    //     }
+    //     return _httpClient;
+    // }
+    private Task<HttpClient> GetAuthenticatedClientAsync()
+    {
+    // No token needed
+    return Task.FromResult(_httpClient);
     }
 
     public async Task<T?> GetAsync<T>(string endpoint)

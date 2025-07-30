@@ -47,6 +47,10 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.7, )"
+            },
+            "Okta.AspNetCore": {
+              "target": "Package",
+              "version": "[4.6.5, )"
             }
           },
           "imports": [
